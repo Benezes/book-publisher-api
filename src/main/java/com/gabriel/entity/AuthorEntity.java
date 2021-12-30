@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gabriel.dto.AuthorDTO;
 
 @Entity
 @Table(name = "tb_author")
@@ -37,6 +38,13 @@ public class AuthorEntity implements Serializable {
 
 	public AuthorEntity() {
 		super();
+	}
+
+	public AuthorEntity(AuthorDTO dto) {
+		this.id = dto.getId();
+		this.fullName = dto.getFullName();
+		this.birthday = dto.getBirthday();
+		this.nationality = dto.getNationality();
 	}
 
 	public Long getId() {

@@ -21,4 +21,34 @@ public class BookService implements AbstractService<BookDTO> {
 		return bookRepository.findAll(pageable).map(BookDTO::new);
 	}
 
+	@Override
+	public BookDTO findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookDTO findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookDTO create(BookDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookDTO update(Long id, BookDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
