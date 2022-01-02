@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.gabriel.entity.AuthorEntity;
 import com.gabriel.entity.BookEntity;
-import com.gabriel.entity.LibraryEntity;
 import com.gabriel.enums.GenderEnum;
 import com.gabriel.enums.RateEnum;
 
@@ -27,8 +26,6 @@ public class BookDTO implements Serializable {
 
 	private Set<AuthorEntity> authors = new HashSet<>();
 
-	private Set<LibraryEntity> libraries = new HashSet<>();
-
 	public BookDTO() {
 		super();
 	}
@@ -36,6 +33,9 @@ public class BookDTO implements Serializable {
 	public BookDTO(BookEntity entity) {
 		this.id = entity.getId();
 		this.bookName = entity.getBookName();
+		this.pages = entity.getPages();
+		entity.getGenders().forEach(this.genders::add);
+		this.rate = entity.getRate();
 	}
 
 	public Long getId() {
@@ -92,14 +92,6 @@ public class BookDTO implements Serializable {
 
 	public void setAuthors(Set<AuthorEntity> authors) {
 		this.authors = authors;
-	}
-
-	public Set<LibraryEntity> getLibraries() {
-		return libraries;
-	}
-
-	public void setLibraries(Set<LibraryEntity> libraries) {
-		this.libraries = libraries;
 	}
 
 }

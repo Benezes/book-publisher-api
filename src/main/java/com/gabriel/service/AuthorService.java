@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.gabriel.dto.AuthorDTO;
 import com.gabriel.entity.AuthorEntity;
 import com.gabriel.repository.AuthorRepository;
+import com.gabriel.service.exceptions.ItemNotFoundException;
 
 @Service
 @Qualifier("authorService")
@@ -25,14 +26,14 @@ public class AuthorService implements AbstractService<AuthorDTO> {
 
 	@Override
 	public AuthorDTO findById(Long id) {
-		AuthorEntity author = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+		AuthorEntity author = authorRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Id not found"));
 		return new AuthorDTO(author);
 	}
 
 	@Override
 	public AuthorDTO findByName(String name) {
 		AuthorEntity author = authorRepository.findByFullName(name)
-				.orElseThrow(() -> new RuntimeException("Name not found"));
+				.orElseThrow(() -> new ItemNotFoundException("Name not found"));
 		return new AuthorDTO(author);
 	}
 
@@ -46,7 +47,7 @@ public class AuthorService implements AbstractService<AuthorDTO> {
 	public AuthorDTO update(Long id, AuthorDTO dto) {
 		AuthorDTO old = findById(id);
 		BeanUtils.copyProperties(dto, old, "id");
-		AuthorEntity author = authorRepository.save(new AuthorEntity(dto));
+		AuthorEntity author = authorRepository.save(new AuthorEntity(old));
 		return new AuthorDTO(author);
 	}
 

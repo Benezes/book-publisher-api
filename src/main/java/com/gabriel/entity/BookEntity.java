@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.gabriel.dto.BookDTO;
 import com.gabriel.enums.GenderEnum;
 import com.gabriel.enums.RateEnum;
 
@@ -43,15 +44,22 @@ public class BookEntity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private RateEnum rate;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<AuthorEntity> authors = new HashSet<>();
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "books")
-	private Set<LibraryEntity> libraries = new HashSet<>();
-
 	public BookEntity() {
 		super();
+	}
+
+	public BookEntity(BookDTO dto) {
+		this.id = dto.getId();
+		this.bookName = dto.getBookName();
+		this.pages = dto.getPages();
+		this.price = dto.getPrice();
+		dto.getGenders().forEach(gender -> this.genders.add(gender));
+		this.rate = dto.getRate();
+		dto.getAuthors().forEach(authors -> this.authors.add(authors));
 	}
 
 	public Long getId() {
@@ -110,14 +118,6 @@ public class BookEntity implements Serializable {
 		this.authors = authors;
 	}
 
-	public Set<LibraryEntity> getLibraries() {
-		return libraries;
-	}
-
-	public void setLibraries(Set<LibraryEntity> libraries) {
-		this.libraries = libraries;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -138,7 +138,7 @@ public class BookEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "BookEntity [id=" + id + ", bookName=" + bookName + ", pages=" + pages + ", price=" + price
-				+ ", genders=" + genders + ", rate=" + rate + ", authors=" + authors + ", libraries=" + libraries + "]";
+				+ ", genders=" + genders + ", rate=" + rate + ", authors=" + authors + "]";
 	}
 
 }

@@ -16,4 +16,5 @@ public interface AbstractService<T> {
 	public abstract T update(Long id, T dto);
 
 	public abstract void delete(Long id);
+
 }
